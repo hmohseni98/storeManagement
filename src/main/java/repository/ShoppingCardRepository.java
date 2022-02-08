@@ -1,6 +1,6 @@
 package repository;
 
-import entity.Admin;
+import customException.RecordDoesNotExist;
 import entity.ShoppingCard;
 import database.MyConnection;
 
@@ -15,7 +15,7 @@ public class ShoppingCardRepository implements BaseRepository<ShoppingCard> {
     public int save(ShoppingCard shoppingCard) {
         Integer id = null;
         try {
-            String save = "INSERT INTO shopping_card (data, payed) VALUES (?,?)";
+            String save = "INSERT INTO shopping_card (date, payed) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(save, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setDate(1, shoppingCard.getDate());
             preparedStatement.setBoolean(2, shoppingCard.isPayed());
@@ -35,13 +35,14 @@ public class ShoppingCardRepository implements BaseRepository<ShoppingCard> {
     public void update(ShoppingCard shoppingCard) {
         try {
             String update = "UPDATE shopping_card " +
-                    "SET data = ? , payed = ? " +
+                    "SET date = ? , payed = ? " +
                     "WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(update);
             preparedStatement.setDate(1, shoppingCard.getDate());
             preparedStatement.setBoolean(2, shoppingCard.isPayed());
             preparedStatement.setInt(3, shoppingCard.getId());
-            preparedStatement.execute();
+            if (!preparedStatement.execute())
+                throw new RecordDoesNotExist();
             preparedStatement.close();
         } catch (SQLException e) {
             System.out.println("database error");

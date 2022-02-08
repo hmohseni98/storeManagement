@@ -103,8 +103,10 @@ public class ProductRepository implements ProductInterface {
             String findById = "SELECT product.*,c.id as cid,c.title,c.description as cdescription,c.category_id" +
                     " as ccategory_id FROM product " +
                     "INNER JOIN category c " +
-                    "on c.id = product.category_id";
+                    "ON c.id = product.category_id " +
+                    "WHERE product.id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(findById);
+            preparedStatement.setInt(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 product = new Product(resultSet.getInt("id"),
@@ -132,7 +134,7 @@ public class ProductRepository implements ProductInterface {
                     " as ccategory_id FROM product " +
                     " INNER JOIN category c " +
                     " on c.id = product.category_id" +
-                    " WHERE category_id = ?";
+                    " WHERE c.category_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(findByCategory);
             preparedStatement.setInt(1,categoryId);
             ResultSet resultSet = preparedStatement.executeQuery();

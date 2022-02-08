@@ -1,11 +1,11 @@
 package repository;
 
 import entity.Customer;
-import entity.ShoppingCard;
+import entity.Order;
 
 import java.util.List;
 
 public interface CustomerInterface extends UserInterface<Customer>{
 
-    List<ShoppingCard> findShoppingCardByUserId(int id);
+    List<Order> findOrderByUserId(int id);
 }

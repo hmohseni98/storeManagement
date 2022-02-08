@@ -2,6 +2,7 @@ package repository;
 
 import entity.Admin;
 import entity.Customer;
+import entity.Order;
 import entity.ShoppingCard;
 import database.MyConnection;
 
@@ -90,7 +91,7 @@ public class CustomerRepository implements CustomerInterface {
         try {
             String findById = "SELECT * FROM customer WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(findById);
-            preparedStatement.setInt(1,id);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 customer = new Customer(resultSet.getInt("id"),
@@ -106,20 +107,41 @@ public class CustomerRepository implements CustomerInterface {
     }
 
     @Override
-    public List<ShoppingCard> findShoppingCardByUserId(int id) {
-        return null;
+    public List<Order> findOrderByUserId(int id) {
+        List<Order> orderList = new ArrayList<>();
+        try{
+            String findShoppingCardByUserId = "SELECT o.*,s.id as sid,s.date,s.payed FROM \"order\" o " +
+                    "INNER JOIN shopping_card s " +
+                    "ON o.shopping_card_id = s.id " +
+                    "WHERE o.customer_id = ? AND s.payed = false ";
+            PreparedStatement preparedStatement = connection.prepareStatement(findShoppingCardByUserId);
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                orderList.add(new Order(resultSet.getInt("id"),
+                        resultSet.getInt("product_id"),
+                        resultSet.getInt("customer_id"),
+                        new ShoppingCard(resultSet.getInt("sid"),
+                                resultSet.getDate("date"),
+                                resultSet.getBoolean("payed"))));
+            }
+            preparedStatement.close();
+        }catch (SQLException e){
+            System.out.println("database error");
+        }
+        return orderList;
     }
 
     @Override
     public Customer login(String username, String password) {
         Customer customer = null;
         try {
-            String login ="SELECT * FROM customer WHERE username = ? and password = ?";
+            String login = "SELECT * FROM customer WHERE username = ? and password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(login);
-            preparedStatement.setString(1,username);
-            preparedStatement.setString(2,password);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 customer = new Customer(resultSet.getInt("id"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
