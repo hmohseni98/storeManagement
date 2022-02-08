@@ -16,7 +16,7 @@ public class ProductRepository implements ProductInterface {
     public int save(Product product) {
         Integer id = null;
         try {
-            String save = "INSERT INTO product (name, description, category_id, gty, price) VALUES  (?,?,?,?,?)";
+            String save = "INSERT INTO product (name, description, category_id, qty, price) VALUES  (?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(save, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDescription());
@@ -39,7 +39,7 @@ public class ProductRepository implements ProductInterface {
     public void update(Product product) {
         try {
             String update = "UPDATE product " +
-                    "SET name = ? , description = ? , category_id = ? , gty = ? , price = ? " +
+                    "SET name = ? , description = ? , category_id = ? , qty = ? , price = ? " +
                     "WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(update);
             preparedStatement.setString(1, product.getName());
@@ -73,7 +73,7 @@ public class ProductRepository implements ProductInterface {
                                 resultSet.getString("title"),
                                 resultSet.getString("cdescription"),
                                 resultSet.getInt("ccategory_id")),
-                        resultSet.getInt("gty"),
+                        resultSet.getInt("qty"),
                         resultSet.getInt("price")));
             }
             preparedStatement.close();
@@ -106,7 +106,7 @@ public class ProductRepository implements ProductInterface {
                     "ON c.id = product.category_id " +
                     "WHERE product.id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(findById);
-            preparedStatement.setInt(1,id);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 product = new Product(resultSet.getInt("id"),
@@ -116,7 +116,7 @@ public class ProductRepository implements ProductInterface {
                                 resultSet.getString("title"),
                                 resultSet.getString("cdescription"),
                                 resultSet.getInt("ccategory_id")),
-                        resultSet.getInt("gty"),
+                        resultSet.getInt("qty"),
                         resultSet.getInt("price"));
             }
             preparedStatement.close();
@@ -136,9 +136,9 @@ public class ProductRepository implements ProductInterface {
                     " on c.id = product.category_id" +
                     " WHERE c.category_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(findByCategory);
-            preparedStatement.setInt(1,categoryId);
+            preparedStatement.setInt(1, categoryId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 productList.add(new Product(resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
@@ -146,13 +146,51 @@ public class ProductRepository implements ProductInterface {
                                 resultSet.getString("title"),
                                 resultSet.getString("cdescription"),
                                 resultSet.getInt("ccategory_id")),
-                        resultSet.getInt("gty"),
+                        resultSet.getInt("qty"),
                         resultSet.getInt("price")));
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("database error");
         }
         return productList;
+    }
+
+    @Override
+    public void updateQty(Product product) {
+        try {
+            String updateQty = " UPDATE product " +
+                    "SET qty = ? " +
+                    "WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQty);
+            preparedStatement.setInt(1, product.getQty() - 1);
+            preparedStatement.setInt(2, product.getId());
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println("database error");
+        }
+    }
+
+    @Override
+    public int findProductIdByShoppingCardId(int shoppingCardId) {
+        Integer productId = null;
+        try {
+            String updateQty = "SELECT p.id FROM shopping_card " +
+                    "INNER JOIN \"order\" o ON " +
+                    "    shopping_card.id = o.shopping_card_id " +
+                    "INNER JOIN product p ON " +
+                    "    p.id = o.product_id " +
+                    "WHERE shopping_card_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQty);
+            preparedStatement.setInt(1, shoppingCardId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next())
+                productId = resultSet.getInt("id");
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println("database error");
+        }
+        return productId;
     }
 }

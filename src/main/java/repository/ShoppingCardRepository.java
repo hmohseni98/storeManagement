@@ -41,7 +41,7 @@ public class ShoppingCardRepository implements BaseRepository<ShoppingCard> {
             preparedStatement.setDate(1, shoppingCard.getDate());
             preparedStatement.setBoolean(2, shoppingCard.isPayed());
             preparedStatement.setInt(3, shoppingCard.getId());
-            if (!preparedStatement.execute())
+            if (preparedStatement.execute())
                 throw new RecordDoesNotExist();
             preparedStatement.close();
         } catch (SQLException e) {

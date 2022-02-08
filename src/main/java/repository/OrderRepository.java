@@ -82,7 +82,7 @@ public class OrderRepository implements BaseRepository<Order> {
             String delete = "DELETE FROM \"order\" WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(delete);
             preparedStatement.setInt(1, id);
-            if (!preparedStatement.execute())
+            if (preparedStatement.execute())
                 throw new RecordDoesNotExist();
             preparedStatement.close();
         } catch (SQLException e) {

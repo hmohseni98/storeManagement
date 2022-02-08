@@ -20,4 +20,10 @@ public class ProductService extends ShopService<Product, ProductRepository> {
                 System.out.println(product.toString());
             }
     }
+    public void updateQty(Product product){
+        productRepository.updateQty(product);
+    }
+    public Integer findProductIdByShoppingCardId (int shoppingCardId){
+        return productRepository.findProductIdByShoppingCardId(shoppingCardId);
+    }
 }

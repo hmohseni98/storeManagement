@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS product(
     name varchar(50),
     description varchar(200),
     category_id int,
-    gty int,
+    qty int,
     price int,
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES category(id)
     );

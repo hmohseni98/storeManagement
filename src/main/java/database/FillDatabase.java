@@ -60,9 +60,9 @@ public class FillDatabase {
         category16.setId(categoryService.save(category16));
         category17.setId(categoryService.save(category17));
 
-        Product product1 = new Product("iphone 13","iphone 13",category9,300,30000000);
-        Product product2 = new Product("iphone 13 pro max","iphone 13 pro max",category9,200,49000000);
-        Product product3 = new Product("iphone 13","iphone 13",category9,300,30000000);
+        Product product1 = new Product("ipad 2018","ipad 2018",category9,300,30000000);
+        Product product2 = new Product("ipad 2020","ipad 2020",category9,200,49000000);
+        Product product3 = new Product("ipad 2019","ipad 2019",category9,300,30000000);
         Product product4 = new Product("note 7","note 7",category8,150,8000000);
         Product product5 = new Product("note 8","note 8",category8,150,6000000);
         Product product6 = new Product("poco x3","poco x3",category8,200,10000000);

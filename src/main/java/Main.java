@@ -28,7 +28,7 @@ public class Main {
         //1. run database > CreateTable.sql .
         //2. run program with fillDatabase.fillData() then commend it.
         FillDatabase fillDatabase = new FillDatabase();
-        //fillDatabase.fillData();
+        fillDatabase.fillData();
         userMenu();
     }
 
@@ -263,14 +263,6 @@ public class Main {
         adminMenu();
     }
 
-    public static void showProduct() {
-        List<Product> productList = productService.findAll();
-        for (Product d : productList) {
-            System.out.println(d.toString());
-        }
-        adminMenu();
-    }
-
     public static void removeCategory() {
         try {
             System.out.print("please enter category id:");
@@ -381,14 +373,6 @@ public class Main {
         }
     }
 
-    public static void showProducts() {
-        List<Product> productList = productService.findAll();
-        for (Product d : productList) {
-            System.out.println(d.toString());
-        }
-        customerMenu();
-    }
-
     public static void addToShoppingCardMenu() {
         try {
             System.out.print("please enter product id:");
@@ -440,6 +424,7 @@ public class Main {
             System.out.print("please enter shopping card id:");
             int id = scanner.nextInt();
             shoppingCardService.update(new ShoppingCard(id, Date.valueOf(LocalDate.now()), true));
+            productService.updateQty(productService.findById(productService.findProductIdByShoppingCardId(id)));
             System.out.println("complete The Purchase!");
             customerMenu();
         } catch (InputMismatchException e) {
