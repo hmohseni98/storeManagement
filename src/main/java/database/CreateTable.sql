@@ -1,27 +1,27 @@
 CREATE TABLE IF NOT EXISTS admin
 (
     id serial primary key,
-    username char(30),
-    password char(30),
-    national_code varchar(10)
+    username varchar(30),
+    password varchar(30),
+    national_code char(10)
 );
 CREATE TABLE IF NOT EXISTS customer(
     id serial primary key ,
-    username char(30),
-    password char(30),
-    address char(50)
+    username varchar(30),
+    password varchar(30),
+    address varchar(100)
     );
 CREATE TABLE IF NOT EXISTS category(
     id serial primary key ,
-    title char(100),
-    description char(200),
+    title varchar(100),
+    description varchar(200),
     category_id int,
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES category(id)
     );
 CREATE TABLE IF NOT EXISTS product(
     id serial primary key ,
-    name char(50),
-    description char(200),
+    name varchar(50),
+    description varchar(200),
     category_id int,
     gty int,
     price int,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS product(
     );
 CREATE TABLE IF NOT EXISTS shopping_card(
     id serial primary key ,
-    data date,
+    date date,
     payed boolean
     );
 CREATE TABLE IF NOT EXISTS "order"(
@@ -41,4 +41,3 @@ CREATE TABLE IF NOT EXISTS "order"(
     CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customer(id),
     CONSTRAINT fk_shopping_card FOREIGN KEY (shopping_card_id) REFERENCES shopping_card(id)
     );
-
