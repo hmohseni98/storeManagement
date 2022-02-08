@@ -8,6 +8,4 @@ public class AdminService extends UserService<Admin, AdminRepository> {
     public AdminService() {
         super(new AdminRepository());
     }
-
-
 }

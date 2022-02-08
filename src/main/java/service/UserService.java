@@ -1,5 +1,6 @@
 package service;
 
+import customException.*;
 import entity.User;
 import repository.BaseRepository;
 import repository.UserInterface;
@@ -15,6 +16,9 @@ public abstract class UserService<E extends User,R extends BaseRepository<E>> ex
 
     public E login(String username,String password){
         UserInterface<E> userInterface = (UserInterface<E>) r;
+        if (userInterface.login(username, password) == null ){
+            throw new InvalidAccount();
+        }
         return userInterface.login(username, password);
     }
 }

@@ -1,10 +1,11 @@
 package service;
 
+import customException.RecordDoesNotExist;
 import repository.BaseRepository;
 
 import java.util.List;
 
-public abstract class ShopService<E,R extends BaseRepository<E>> {
+public abstract class ShopService<E, R extends BaseRepository<E>> {
 
     private R r;
 
@@ -12,27 +13,26 @@ public abstract class ShopService<E,R extends BaseRepository<E>> {
         this.r = r;
     }
 
-    public int save(E e){
-       return r.save(e);
+    public int save(E e) {
+        return r.save(e);
     }
 
-    public void update(E e){
+    public void update(E e) {
         r.update(e);
     }
 
-    public void findAll(){
-        List<E> all = r.findAll();
-        for (E e: all) {
-            System.out.println(e.toString());
-        }
+    public List<E> findAll() {
+        return r.findAll();
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         r.delete(id);
     }
 
-    public void findById(int id){
-        E byId = r.findById(id);
-        System.out.println(byId.toString());
+    public E findById(int id) {
+        E e = r.findById(id);
+        if (e == null)
+            throw new RecordDoesNotExist();
+        return r.findById(id);
     }
 }
