@@ -3,6 +3,11 @@ package entity;
 public class Admin extends User{
     private String nationalCode;
 
+    public Admin(String username, String password, String nationalCode) {
+        super(username, password);
+        this.nationalCode = nationalCode;
+    }
+
     public Admin(int id, String username, String password, String nationalCode) {
         super(id, username, password);
         this.nationalCode = nationalCode;

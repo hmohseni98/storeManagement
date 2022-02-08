@@ -3,14 +3,20 @@ package entity;
 public class Order {
 
     private int id;
-    private Product product;
-    private Customer customer;
+    private int productId;
+    private int customerId;
     private ShoppingCard shoppingCard;
 
-    public Order(int id, Product product, Customer customer, ShoppingCard shoppingCard) {
+    public Order(int id, int productId, int customerId, ShoppingCard shoppingCard) {
         this.id = id;
-        this.product = product;
-        this.customer = customer;
+        this.productId = productId;
+        this.customerId = customerId;
+        this.shoppingCard = shoppingCard;
+    }
+
+    public Order(int productId, int customerId, ShoppingCard shoppingCard) {
+        this.productId = productId;
+        this.customerId = customerId;
         this.shoppingCard = shoppingCard;
     }
 
@@ -22,20 +28,20 @@ public class Order {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public ShoppingCard getShoppingCard() {
@@ -50,8 +56,8 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", product=" + product +
-                ", customer=" + customer +
+                ", productId=" + productId +
+                ", customerId=" + customerId +
                 ", shoppingCard=" + shoppingCard +
                 '}';
     }

@@ -2,16 +2,22 @@ package entity;
 
 public class Category {
 
-    private int id;
+    private Integer id;
     private String title;
     private String description;
-    private Category category;
+    private Integer categoryId;
 
-    public Category(int id, String title, String description, Category category) {
+    public Category(Integer id, String title, String description, Integer categoryId) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.category = category;
+        this.categoryId = categoryId;
+    }
+
+    public Category(String title, String description, Integer categoryId) {
+        this.title = title;
+        this.description = description;
+        this.categoryId = categoryId;
     }
 
     public int getId() {
@@ -38,12 +44,12 @@ public class Category {
         this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override
@@ -52,7 +58,7 @@ public class Category {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", category=" + category +
+                ", categoryId=" + categoryId +
                 '}';
     }
 }

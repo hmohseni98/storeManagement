@@ -14,6 +14,10 @@ public class ShoppingCard {
         this.payed = payed;
     }
 
+    public ShoppingCard(Date date) {
+        this.date = date;
+        this.payed = false;
+    }
     public int getId() {
         return id;
     }
