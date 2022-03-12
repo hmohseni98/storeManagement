@@ -1,18 +1,28 @@
 package entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.sql.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
 public class ShoppingCard {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Date date;
     private boolean payed;
-
-    public ShoppingCard(int id, Date date, boolean payed) {
-        this.id = id;
-        this.date = date;
-        this.payed = payed;
-    }
 
     public ShoppingCard(Date date) {
         this.date = date;

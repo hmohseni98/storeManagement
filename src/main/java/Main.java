@@ -2,6 +2,7 @@ import customException.InvalidAccount;
 import customException.InvalidNationalCode;
 import customException.RecordDoesNotExist;
 import database.FillDatabase;
+import database.SessionFactorySingleton;
 import entity.*;
 import service.*;
 
@@ -379,7 +380,7 @@ public class Main {
             int id = scanner.nextInt();
             ShoppingCard shoppingCard = new ShoppingCard(Date.valueOf(LocalDate.now()));
             shoppingCard.setId(shoppingCardService.save(shoppingCard));
-            orderService.save(new Order(id, customer.getId(), shoppingCard));
+            orderService.save(new Orders(id, customer.getId(), shoppingCard));
             System.out.println("added success!");
             customerMenu();
         } catch (InputMismatchException e) {

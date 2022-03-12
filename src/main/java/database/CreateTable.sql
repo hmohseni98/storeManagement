@@ -15,8 +15,7 @@ CREATE TABLE IF NOT EXISTS category(
     id serial primary key ,
     title varchar(100),
     description varchar(200),
-    category_id int,
-    CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES category(id)
+    category_id int
     );
 CREATE TABLE IF NOT EXISTS product(
     id serial primary key ,
@@ -27,17 +26,17 @@ CREATE TABLE IF NOT EXISTS product(
     price int,
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES category(id)
     );
-CREATE TABLE IF NOT EXISTS shopping_card(
+CREATE TABLE IF NOT EXISTS shoppingcard(
     id serial primary key ,
     date date,
     payed boolean
     );
-CREATE TABLE IF NOT EXISTS "order"(
+CREATE TABLE IF NOT EXISTS orders(
     id serial primary key ,
     product_id int,
     customer_id int,
-    shopping_card_id int,
+    shoppingcard_id int,
     CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES product(id),
     CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customer(id),
-    CONSTRAINT fk_shopping_card FOREIGN KEY (shopping_card_id) REFERENCES shopping_card(id)
+    CONSTRAINT fk_shopping_card FOREIGN KEY (shoppingcard_id) REFERENCES shoppingcard(id)
     );

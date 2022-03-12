@@ -15,7 +15,7 @@ public class ShoppingCardRepository implements BaseRepository<ShoppingCard> {
     public int save(ShoppingCard shoppingCard) {
         Integer id = null;
         try {
-            String save = "INSERT INTO shopping_card (date, payed) VALUES (?,?)";
+            String save = "INSERT INTO shoppingcard (date, payed) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(save, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setDate(1, shoppingCard.getDate());
             preparedStatement.setBoolean(2, shoppingCard.isPayed());
@@ -34,7 +34,7 @@ public class ShoppingCardRepository implements BaseRepository<ShoppingCard> {
     @Override
     public void update(ShoppingCard shoppingCard) {
         try {
-            String update = "UPDATE shopping_card " +
+            String update = "UPDATE shoppingcard " +
                     "SET date = ? , payed = ? " +
                     "WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(update);
@@ -53,7 +53,7 @@ public class ShoppingCardRepository implements BaseRepository<ShoppingCard> {
     public List<ShoppingCard> findAll() {
         List<ShoppingCard> shoppingCardList = new ArrayList<>();
         try {
-            String findAll = "SELECT * FROM shopping_card";
+            String findAll = "SELECT * FROM shoppingcard";
             PreparedStatement preparedStatement = connection.prepareStatement(findAll);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -71,7 +71,7 @@ public class ShoppingCardRepository implements BaseRepository<ShoppingCard> {
     @Override
     public void delete(int id) {
         try {
-            String delete = "DELETE FROM shopping_card WHERE id = ?";
+            String delete = "DELETE FROM shoppingcard WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(delete);
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
@@ -85,7 +85,7 @@ public class ShoppingCardRepository implements BaseRepository<ShoppingCard> {
     public ShoppingCard findById(int id) {
         ShoppingCard shoppingCard = null;
         try {
-            String findAll = "SELECT * FROM shopping_card WHERE id = ?";
+            String findAll = "SELECT * FROM shoppingcard WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(findAll);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();

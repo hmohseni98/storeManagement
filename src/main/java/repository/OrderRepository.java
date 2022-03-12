@@ -1,7 +1,7 @@
 package repository;
 
 import customException.RecordDoesNotExist;
-import entity.Order;
+import entity.Orders;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,18 +10,18 @@ import java.util.List;
 import database.MyConnection;
 import entity.ShoppingCard;
 
-public class OrderRepository implements BaseRepository<Order> {
+public class OrderRepository implements BaseRepository<Orders> {
     Connection connection = MyConnection.connection;
 
     @Override
-    public int save(Order order) {
+    public int save(Orders orders) {
         Integer id = null;
         try {
-            String save = "INSERT INTO \"order\" (product_id, customer_id, shopping_card_id) VALUES (?,?,?)";
+            String save = "INSERT INTO orders (productid, customerid, shoppingcard_id) VALUES (?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(save, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setInt(1, order.getProductId());
-            preparedStatement.setInt(2, order.getCustomerId());
-            preparedStatement.setInt(3, order.getShoppingCard().getId());
+            preparedStatement.setInt(1, orders.getProductId());
+            preparedStatement.setInt(2, orders.getCustomerId());
+            preparedStatement.setInt(3, orders.getShoppingCard().getId());
             preparedStatement.execute();
             ResultSet generatedKey = preparedStatement.getGeneratedKeys();
             if (generatedKey.next()) {
@@ -35,16 +35,16 @@ public class OrderRepository implements BaseRepository<Order> {
     }
 
     @Override
-    public void update(Order order) {
+    public void update(Orders orders) {
         try {
-            String update = "UPDATE \"order\" " +
-                    "SET product_id = ? , customer_id = ? , shopping_card_id = ? " +
+            String update = "UPDATE orders " +
+                    "SET productid = ? , customerid = ? , shoppingcard_id = ? " +
                     "WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(update);
-            preparedStatement.setInt(1, order.getProductId());
-            preparedStatement.setInt(2, order.getCustomerId());
-            preparedStatement.setInt(3, order.getShoppingCard().getId());
-            preparedStatement.setInt(4, order.getId());
+            preparedStatement.setInt(1, orders.getProductId());
+            preparedStatement.setInt(2, orders.getCustomerId());
+            preparedStatement.setInt(3, orders.getShoppingCard().getId());
+            preparedStatement.setInt(4, orders.getId());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -53,16 +53,16 @@ public class OrderRepository implements BaseRepository<Order> {
     }
 
     @Override
-    public List<Order> findAll() {
-        List<Order> orderList = new ArrayList<>();
+    public List<Orders> findAll() {
+        List<Orders> OrdersList = new ArrayList<>();
         try {
-            String findAll = "SELECT o.*,s.id as sid,s.date,s.payed FROM \"order\" o " +
-                    "INNER JOIN shopping_card s " +
-                    "ON o.shopping_card_id = s.id";
+            String findAll = "SELECT o.*,s.id as sid,s.date,s.payed FROM orders o " +
+                    "INNER JOIN shoppingcard s " +
+                    "ON o.shoppingcard_id = s.id";
             PreparedStatement preparedStatement = connection.prepareStatement(findAll);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                orderList.add(new Order(resultSet.getInt("id"),
+                OrdersList.add(new Orders(resultSet.getInt("id"),
                         resultSet.getInt("product_id"),
                         resultSet.getInt("customer_id"),
                         new ShoppingCard(resultSet.getInt("sid"),
@@ -73,13 +73,13 @@ public class OrderRepository implements BaseRepository<Order> {
         } catch (SQLException e) {
             System.out.println("database error");
         }
-        return orderList;
+        return OrdersList;
     }
 
     @Override
     public void delete(int id) {
         try {
-            String delete = "DELETE FROM \"order\" WHERE id = ?";
+            String delete = "DELETE FROM orders WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(delete);
             preparedStatement.setInt(1, id);
             if (preparedStatement.execute())
@@ -91,18 +91,18 @@ public class OrderRepository implements BaseRepository<Order> {
     }
 
     @Override
-    public Order findById(int id) {
-        Order order = null;
+    public Orders findById(int id) {
+        Orders Orders = null;
         try {
-            String findById = "SELECT o.*,s.id as sid,s.date,s.payed FROM \"order\" o " +
-                    "INNER JOIN shopping_card s " +
-                    "ON o.shopping_card_id = s.id " +
+            String findById = "SELECT o.*,s.id as sid,s.date,s.payed FROM orders o " +
+                    "INNER JOIN shoppingcard s " +
+                    "ON o.shoppingcard_id = s.id " +
                     "WHERE o.id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(findById);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                order = new Order(resultSet.getInt("id"),
+                Orders = new Orders(resultSet.getInt("id"),
                         resultSet.getInt("product_id"),
                         resultSet.getInt("customer_id"),
                         new ShoppingCard(resultSet.getInt("sid"),
@@ -113,6 +113,6 @@ public class OrderRepository implements BaseRepository<Order> {
         } catch (SQLException e) {
             System.out.println("database error");
         }
-        return order;
+        return Orders;
     }
 }

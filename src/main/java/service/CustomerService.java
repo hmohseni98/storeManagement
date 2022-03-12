@@ -1,8 +1,7 @@
 package service;
 
 import entity.Customer;
-import entity.Order;
-import entity.ShoppingCard;
+import entity.Orders;
 import repository.CustomerRepository;
 
 import java.util.List;
@@ -18,13 +17,13 @@ public class CustomerService extends UserService<Customer, CustomerRepository> {
     }
 
     public void findOrderByUserId(int id) {
-        List<Order> OrderByUserId = customerRepository.findOrderByUserId(id);
-        for (Order order : OrderByUserId) {
-            System.out.println("Order{" +
-                    "id=" + order.getId() +
-                    ", productId=" + order.getProductId() +
-                    ", productName=" + productService.findById(order.getProductId()).getName() +
-                    ", " + order.getShoppingCard() +
+        List<Orders> OrdersByUserId = customerRepository.findOrderByUserId(id);
+        for (Orders Orders : OrdersByUserId) {
+            System.out.println("Orders{" +
+                    "id=" + Orders.getId() +
+                    ", productId=" + Orders.getProductId() +
+                    ", productName=" + productService.findById(Orders.getProductId()).getName() +
+                    ", " + Orders.getShoppingCard() +
                     '}');
         }
     }

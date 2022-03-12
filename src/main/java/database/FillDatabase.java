@@ -11,7 +11,7 @@ public class FillDatabase {
     private CategoryService categoryService = new CategoryService();
     private ProductService productService = new ProductService();
     private ShoppingCardService shoppingCardService = new ShoppingCardService();
-    private OrderService orderService = new OrderService();
+    private OrderService OrderService = new OrderService();
 
     public void fillData(){
         Admin admin = new Admin("admin","admin","0021239266");
@@ -94,16 +94,16 @@ public class FillDatabase {
         shoppingCard5.setId(shoppingCardService.save(shoppingCard5));
 
 
-        Order order1 = new Order(1,1,shoppingCard1);
-        Order order2 = new Order(2,1,shoppingCard2);
-        Order order3 = new Order(3,2,shoppingCard3);
-        Order order4 = new Order(4,2,shoppingCard4);
-        Order order5 = new Order(5,2,shoppingCard5);
+        Orders Orders1 = new Orders(1,1,shoppingCard1);
+        Orders Orders2 = new Orders(2,1,shoppingCard2);
+        Orders Orders3 = new Orders(3,2,shoppingCard3);
+        Orders Orders4 = new Orders(4,2,shoppingCard4);
+        Orders Orders5 = new Orders(5,2,shoppingCard5);
 
-        order1.setId(orderService.save(order1));
-        order2.setId(orderService.save(order2));
-        order3.setId(orderService.save(order3));
-        order4.setId(orderService.save(order4));
-        order5.setId(orderService.save(order5));
+        Orders1.setId(OrderService.save(Orders1));
+        Orders2.setId(OrderService.save(Orders2));
+        Orders3.setId(OrderService.save(Orders3));
+        Orders4.setId(OrderService.save(Orders4));
+        Orders5.setId(OrderService.save(Orders5));
     }
 }
